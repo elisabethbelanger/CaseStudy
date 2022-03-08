@@ -1,0 +1,48 @@
+%% ESE 351: Case Study 1
+% * Names:                  Morgan Davies, Ouyang Du, & Elisabeth Belanger
+% * Date:                   Created 2/27/2022
+
+
+%[xv,xvfs] = audioread('roosevelt_noisy.wav'); len = 20;% 20 sec
+%[xv,xvfs] = audioread('piano_noisy.wav'); len = 12; % 12 sec
+
+%[xv,xvfs] = audioread('Blue in Green with Siren.wav'); len = 15; 
+%[xv,xvfs] = audioread('Space Station - Treb.wav'); len = 15; 
+soundsc(xv(:, 2), xvfs)
+g1 = 0; % 0 - 60
+g2 = 1; % 60 - 680
+g3 = 0; % 680 - 3320
+g4 = 0; % 3320 - 12680
+g5 = 0; % 12680 
+
+y = equilizer3(xv(:, 1), xvfs, g1, g2, g3, g4, g5);
+t = linspace(0, len, len*xvfs );
+figure()
+plot(t, y);
+title('filtered');
+figure()
+plot(t, xv);
+title('original');
+
+soundsc(y, xvfs)
+pause(len)
+soundsc(xv, xvfs)
+
+
+
+
+%% LSIM
+% t = 0:0.001:15;
+% W = 0:(size(t, 2)-1);
+% 
+% % h = 1/fs;
+% % t = 0:h:5;
+% % B = 1;
+% % A = [1 + L*C/h^2 + R*C/h, -R*C/h -2*L*C/h^2, L*C/h^2];
+% %s = jw 
+% 
+% y=lsim(1/(L*C),[1, R/L, 1/(L*C)], cos(pi*W(i).*t), t);
+% figure()
+% plot(W, 20*log(abs(y)))
+
+

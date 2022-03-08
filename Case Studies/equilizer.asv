@@ -23,21 +23,17 @@ fs =xvfs;
 
 % Low pass - 60 hz 
 x1 = filter((1/fs)/tao1, [(1/fs)/tao1+1, -1], xv);
-
-% BP1 60 -> 680
-
 fc2 = 680;
 tao1 = 1/(2*pi*fc1);
 tao2 = 1/(2*pi*fc2);
 fs =xvfs;
 
+% BP1  -> 3320
 % Low pass
 x2 = filter((1/fs)/tao2, [(1/fs)/tao2+1, -1], xv);
 
 % High pass
 x2 = filter([1, -1], [(1+(1/fs)/tao1), -1], x2);
-
-% BP2 680 -> 3320
 
 fc3 = 3320;
 tao3 = 1/(2*pi*fc3);
@@ -49,20 +45,17 @@ x3 = filter((1/fs)/tao3, [(1/fs)/tao3+1, -1], xv);
 % High pass
 x3 = filter([1, -1], [(1+(1/fs)/tao2), -1], x3);
 
-
-% BP2 3320 -> 12680
-
 fc4 = 12680;
 tao4 = 1/(2*pi*fc4);
 fs =xvfs;
 
 % Low pass
 x4 = filter((1/fs)/tao4, [1+(1/fs)/tao4, -1], xv);
+
 % High pass
 x4 = filter([1, -1], [(1+(1/fs)/tao3), -1], x4);
 
-% High pass - 12680+
-
+% High pass
 x5 = filter([1, -1], [(1+(1/fs)/tao4), -1], xv);
 
 y = mean(abs(xv))*(g1*x1/mean(abs(x1)) + g2*x2/mean(abs(x2)) + g3*x3/mean(abs(x3)) + g4*x4/mean(abs(x4)) + g5*x5/mean(abs(x5)));
